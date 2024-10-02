@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Potentiel Soft Drinks</title>
+    <style>
+        /* Définit la hauteur à 100% pour le corps et l'élément html */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Conteneur principal centré avec Flexbox */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #f8f9fa;
+            flex-direction: column;
+        }
+
+        /* Un conteneur central pour tout le contenu */
+        .container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        label, input {
+            display: block;
+            margin: 10px 0;
+        }
+
+        /* Boutons en bleu clair */
+        button {
+            padding: 10px 20px;
+            background-color: #5bc0de;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #31b0d5;
+        }
+
+        /* Centrage du champ number */
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+            background-color: #e2f0f9;
+            padding: 15px;
+            border-radius: 5px;
+            color: #333;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .button-group, .checkbox-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+
+        }
+
+        /* Style individuel des labels */
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #5bc0de;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Effet au survol (hover) */
+        .checkbox-group label:hover {
+            background-color: #31b0d5;
+            transform: translateY(-2px);
+        }
+
+        /* Effet lorsqu'il est sélectionné */
+        .checkbox-group input[type="radio"]:checked + label {
+            background-color: #0c607f;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Masquer la case à cocher */
+        .checkbox-group input[type="radio"] {
+            display: none;
+        }
+
+        /* Emplacement pour le logo centré en haut */
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+            
+    </div>
+
+    <div class="container">
+        <h1>Calculateur de Potentiel Soft Drinks</h1>
+
+        <!-- Choix entre HORECA ou IMPULSE -->
+        <form id="choix-form">
+            <label>Sélectionnez le type de calcul :</label>
+            <div class="button-group">
+                <button type="button" id="type-impulse" onclick="afficherSection('impulse')">IMPULSE</button>
+                <button type="button" id="type-horeca" onclick="afficherSection('horeca')">HORECA</button>
+            </div>
+        </form>
+
+        <!-- Section IMPULSE -->
+        <div id="impulse-section" class="form-section">
+            <h2>IMPULSE</h2>
+            <form id="impulse-form">
+                <div class="checkbox-group">
+                    <input type="radio" id="saison-haute-impulse" name="saison-impulse">
+                    <label for="saison-haute-impulse">Haute saison <br> (Avril à Septembre)</label>
+                    
+                    <input type="radio" id="saison-basse-impulse" name="saison-impulse">
+                    <label for="saison-basse-impulse">Basse saison <br> (Octobre à Mars)</label>
+                </div>
+
+                <label for="X">Combien de fardeaux de soft drinks commandez-vous par semaine ?</label>
+                <input type="number" id="X" min="0" required>
+
+                <button type="button" onclick="calculerImpulse()">Calculer</button>
+
+                <div id="result-impulse" class="result"></div>
+            </form>
+        </div>
+
+        <!-- Section HORECA -->
+        <div id="horeca-section" class="form-section">
+            <h2>HORECA</h2>
+            <form id="horeca-form">
+                <div class="checkbox-group">
+                    <input type="radio" id="saison-haute-horeca" name="saison-horeca">
+                    <label for="saison-haute-horeca">Haute saison <br> (Avril à Septembre)</label>
+                    
+                    <input type="radio" id="saison-basse-horeca" name="saison-horeca">
+                    <label for="saison-basse-horeca">Basse saison <br> (Octobre à Mars)</label>
+                </div>
+
+                <label for="Q1">Combien de caisses de Cola VC commandez-vous à la semaine ?</label>
+                <input type="number" id="Q1" min="0" required>
+
+                <label for="Q2">Combien de fardeaux de Cola hors VC (Can et PET) commandez-vous à la semaine ?</label>
+                <input type="number" id="Q2" min="0" required>
+
+                <button type="button" onclick="calculerHoreca()">Calculer</button>
+
+                <div id="result-horeca" class="result"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour afficher la section correspondante (IMPULSE ou HORECA)
+        function afficherSection(type) {
+            const impulseSection = document.getElementById('impulse-section');
+            const horecaSection = document.getElementById('horeca-section');
+
+            // Cacher les deux sections par défaut
+            impulseSection.style.display = 'none';
+            horecaSection.style.display = 'none';
+
+            // Afficher la section selon le type sélectionné
+            if (type === 'impulse') {
+                impulseSection.style.display = 'block';
+            } else if (type === 'horeca') {
+                horecaSection.style.display = 'block';
+            }
+        }
+
+        // Fonction pour calculer la catégorie en fonction du volume
+        function obtenirCategorie(volume) {
+            if (volume > 10000) {
+                return "Diamond+";
+            } else if (volume >= 5000 && volume <= 10000) {
+                return "Diamond";
+            } else if (volume >= 3500 && volume < 5000) {
+                return "Gold";
+            } else {
+                return "Low potential";
+            }
+        }
+
+        // Fonction de calcul pour IMPULSE
+        function calculImpulse(saison, X) {
+            let potentielAnnuel;
+
+            if (saison === 'haute') {
+                potentielAnnuel = ((X * 26) + (X * 0.65 * 26)) * 7.6;
+            } else if (saison === 'basse') {
+                potentielAnnuel = ((X * 26) + (X * 1.66 * 26)) * 7.6;
+            }
+
+            return potentielAnnuel;
+        }
+
+        // Fonction de calcul pour HORECA
+        function calculHoreca(saison, Q1, Q2) {
+            let potentielTotal;
+
+            if (saison === 'haute') {
+                potentielTotal = (
+                    (((Q1 * 26) + (Q1 * 0.65 * 26)) * 24 * 0.33 / 60 * 100) +
+                    (((Q2 * 26) + (Q2 * 0.65 * 26)) * 12 / 60 * 100)
+                );
+            } else if (saison === 'basse') {
+                potentielTotal = (
+                    (((Q1 * 26) + (Q1 * 1.66 * 26)) * 24 * 0.33 / 60 * 100) +
+                    (((Q2 * 26) + (Q2 * 1.66 * 26)) * 12 / 60 * 100)
+                );
+            }
+
+            return potentielTotal;
+        }
+
+        // Fonction pour afficher le résultat IMPULSE
+        function calculerImpulse() {
+            let saisonHaute = document.getElementById('saison-haute-impulse').checked;
+            let saisonBasse = document.getElementById('saison-basse-impulse').checked;
+            let saison;
+
+            // Valider que l'utilisateur a sélectionné une seule saison
+            if (saisonHaute && saisonBasse) {
+                alert("Veuillez sélectionner une seule saison.");
+                return;
+            } else if (saisonHaute) {
+                saison = 'haute';
+            } else if (saisonBasse) {
+                saison = 'basse';
+            } else {
+                alert("Veuillez sélectionner une saison.");
+                return;
+            }
+
+            let X = parseInt(document.getElementById('X').value);
+
+            if (isNaN(X) || X <= 0) {
+                alert("Veuillez entrer un nombre valide.");
+                return;
+            }
+
+            let resultat = calculImpulse(saison, X);
+            let categorie = obtenirCategorie(resultat);
+            document.getElementById('result-impulse').innerHTML = `Potentiel soft drinks annuel pour IMPULSE : ${resultat.toFixed(2)} Litres <br> La catégorie client est : ${categorie}`;
+        }
+
+        // Fonction pour afficher le résultat HORECA
+        function calculerHoreca() {
+            let saisonHaute = document.getElementById('saison-haute-horeca').checked;
+            let saisonBasse = document.getElementById('saison-basse-horeca').checked;
+            let saison;
+
+            // Valider que l'utilisateur a sélectionné une seule saison
+            if (saisonHaute && saisonBasse) {
+                alert("Veuillez sélectionner une seule saison.");
+                return;
+            } else if (saisonHaute) {
+                saison = 'haute';
+            } else if (saisonBasse) {
+                saison = 'basse';
+            } else {
+                alert("Veuillez sélectionner une saison.");
+                return;
+            }
+
+            let Q1 = parseInt(document.getElementById('Q1').value);
+            let Q2 = parseInt(document.getElementById('Q2').value);
+
+            if (isNaN(Q1) || Q1 < 0 || isNaN(Q2) || Q2 < 0) {
+                alert("Veuillez entrer des nombres valides.");
+                return;
+            }
+
+            let resultat = calculHoreca(saison, Q1, Q2);
+            let categorie = obtenirCategorie(resultat);
+            document.getElementById('result-horeca').innerHTML = `Potentiel soft drinks annuel pour HORECA : ${resultat.toFixed(2)} Litres <br> La catégorie client est : ${categorie}`;
+
+        }
+    </script>
+
+</body>
+</html>
