@@ -1,3 +1,22 @@
+<?php
+// Chemin du fichier compteur
+$fichier_compteur = "compteur.txt";
+
+// Vérifie si le fichier existe
+if (file_exists($fichier_compteur)) {
+    // Ouvre le fichier pour lecture et écriture
+    $compteur = file_get_contents($fichier_compteur);
+    // Incrémente le compteur
+    $compteur++;
+    // Écrit la nouvelle valeur dans le fichier
+    file_put_contents($fichier_compteur, $compteur);
+} else {
+    // Si le fichier n'existe pas, le créer avec une valeur initiale
+    $compteur = 1;
+    file_put_contents($fichier_compteur, $compteur);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
