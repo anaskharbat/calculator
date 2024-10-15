@@ -12,16 +12,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon from a web source -->
+    <link rel="icon" href="https://companieslogo.com/img/orig/2587.T-fb0ff8e4.png?t=1720244490" type="image/png">
     <title>Calculateur de Potentiel Soft Drinks</title>
     <style>
-        /* Définit la hauteur à 100% pour le corps et l'élément html */
+        /* Set the height to 100% for the body and html elements */
         html, body {
             height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
         }
 
-        /* Conteneur principal centré avec Flexbox */
+        /* Main container centered using Flexbox */
         body {
             display: flex;
             justify-content: center;
@@ -31,7 +33,7 @@
             flex-direction: column;
         }
 
-        /* Un conteneur central pour tout le contenu */
+        /* Central container for all content */
         .container {
             padding: 20px;
             background-color: #fff;
@@ -46,7 +48,7 @@
             margin: 10px 0;
         }
 
-        /* Boutons en bleu clair */
+        /* Light blue buttons */
         button {
             padding: 10px 20px;
             background-color: #5bc0de;
@@ -61,7 +63,7 @@
             background-color: #31b0d5;
         }
 
-        /* Centrage du champ number */
+        /* Centering the number input field */
         input[type="number"] {
             width: 100%;
             padding: 10px;
@@ -90,10 +92,9 @@
             gap: 20px;
             justify-content: center;
             margin-bottom: 20px;
-
         }
 
-        /* Style individuel des labels */
+        /* Individual label styling */
         .checkbox-group label {
             display: flex;
             align-items: center;
@@ -106,13 +107,13 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Effet au survol (hover) */
+        /* Hover effect */
         .checkbox-group label:hover {
             background-color: #31b0d5;
             transform: translateY(-2px);
         }
 
-        /* Effet lorsqu'il est sélectionné */
+        /* Effect when selected */
         .checkbox-group input[type="radio"]:checked + label {
             background-color: #0c607f;
             font-weight: bold;
@@ -120,12 +121,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Masquer la case à cocher */
+        /* Hide the radio button */
         .checkbox-group input[type="radio"] {
             display: none;
         }
 
-        /* Emplacement pour le logo centré en haut */
+        /* Centered logo at the top */
         .logo {
             text-align: center;
             margin-bottom: 20px;
@@ -139,13 +140,15 @@
 <body>
 
     <div class="logo">
-         <img src="logo/logo.png" alt="Logo">   
+        <img src="https://www.rayon-boissons.com/var/site/storage/images/_aliases/large/9/0/8/4/3804809-1-fre-FR/Nouveau%20nom%20Orangina_logo.JPG" >
+  
     </div>
+
 
     <div class="container">
         <h1>Calculateur de Potentiel Soft Drinks</h1>
 
-        <!-- Choix entre HORECA ou IMPULSE -->
+        <!-- Selection between HORECA or IMPULSE -->
         <form id="choix-form">
             <label>Sélectionnez le type de calcul :</label>
             <div class="button-group">
@@ -154,7 +157,7 @@
             </div>
         </form>
 
-        <!-- Section IMPULSE -->
+        <!-- IMPULSE Section -->
         <div id="impulse-section" class="form-section">
             <h2>IMPULSE</h2>
             <form id="impulse-form">
@@ -175,7 +178,7 @@
             </form>
         </div>
 
-        <!-- Section HORECA -->
+        <!-- HORECA Section -->
         <div id="horeca-section" class="form-section">
             <h2>HORECA</h2>
             <form id="horeca-form">
@@ -201,16 +204,16 @@
     </div>
 
     <script>
-        // Fonction pour afficher la section correspondante (IMPULSE ou HORECA)
+        // Function to display the corresponding section (IMPULSE or HORECA)
         function afficherSection(type) {
             const impulseSection = document.getElementById('impulse-section');
             const horecaSection = document.getElementById('horeca-section');
 
-            // Cacher les deux sections par défaut
+            // Hide both sections by default
             impulseSection.style.display = 'none';
             horecaSection.style.display = 'none';
 
-            // Afficher la section selon le type sélectionné
+            // Display the selected section
             if (type === 'impulse') {
                 impulseSection.style.display = 'block';
             } else if (type === 'horeca') {
@@ -218,20 +221,37 @@
             }
         }
 
-        // Fonction pour calculer la catégorie en fonction du volume
-        function obtenirCategorie(volume) {
-            if (volume > 10000) {
+        // Segmentation HORECA logic
+        function obtenirCategorieHoreca(volume) {
+            if (volume > 8 * 1000) {  // Diamond+ > 8 KL
                 return "Diamond+";
-            } else if (volume >= 5000 && volume <= 10000) {
+            } else if (volume >= 4 * 1000 && volume <= 8 * 1000) {  // Diamond between 4 KL and 8 KL
                 return "Diamond";
-            } else if (volume >= 3500 && volume < 5000) {
+            } else if (volume >= 2.8 * 1000 && volume < 4 * 1000) {  // Gold between 2.8 KL and 4 KL
                 return "Gold";
-            } else {
-                return "Low potential";
+            } else if (volume >= 1.5 * 1000 && volume < 2.8 * 1000) {  // Silver between 1.5 KL and 2.8 KL
+                return "Silver";
+            } else {  // Bronze < 1.5 KL
+                return "Bronze";
             }
         }
 
-        // Fonction de calcul pour IMPULSE
+        // Segmentation IMPULSE logic
+        function obtenirCategorieImpulse(volume) {
+            if (volume > 6 * 1000) {  // Diamond+ > 6 KL
+                return "Diamond+";
+            } else if (volume >= 3 * 1000 && volume <= 6 * 1000) {  // Diamond between 3 KL and 6 KL
+                return "Diamond";
+            } else if (volume >= 2 * 1000 && volume < 3 * 1000) {  // Gold between 2 KL and 3 KL
+                return "Gold";
+            } else if (volume >= 1.1 * 1000 && volume < 2 * 1000) {  // Silver between 1.1 KL and 2 KL
+                return "Silver";
+            } else {  // Bronze < 1.1 KL
+                return "Bronze";
+            }
+        }
+
+        // Calculation function for IMPULSE
         function calculImpulse(saison, X) {
             let potentielAnnuel;
 
@@ -244,7 +264,7 @@
             return potentielAnnuel;
         }
 
-        // Fonction de calcul pour HORECA
+        // Calculation function for HORECA
         function calculHoreca(saison, Q1, Q2) {
             let potentielTotal;
 
@@ -263,13 +283,13 @@
             return potentielTotal;
         }
 
-        // Fonction pour afficher le résultat IMPULSE
+        // Function to display the result for IMPULSE
         function calculerImpulse() {
             let saisonHaute = document.getElementById('saison-haute-impulse').checked;
             let saisonBasse = document.getElementById('saison-basse-impulse').checked;
             let saison;
 
-            // Valider que l'utilisateur a sélectionné une seule saison
+            // Validate that only one season is selected
             if (saisonHaute && saisonBasse) {
                 alert("Veuillez sélectionner une seule saison.");
                 return;
@@ -290,17 +310,17 @@
             }
 
             let resultat = calculImpulse(saison, X);
-            let categorie = obtenirCategorie(resultat);
+            let categorie = obtenirCategorieImpulse(resultat);
             document.getElementById('result-impulse').innerHTML = `Potentiel soft drinks annuel pour IMPULSE : ${resultat.toFixed(2)} Litres <br> La catégorie client est : ${categorie}`;
         }
 
-        // Fonction pour afficher le résultat HORECA
+        // Function to display the result for HORECA
         function calculerHoreca() {
             let saisonHaute = document.getElementById('saison-haute-horeca').checked;
             let saisonBasse = document.getElementById('saison-basse-horeca').checked;
             let saison;
 
-            // Valider que l'utilisateur a sélectionné une seule saison
+            // Validate that only one season is selected
             if (saisonHaute && saisonBasse) {
                 alert("Veuillez sélectionner une seule saison.");
                 return;
@@ -322,9 +342,8 @@
             }
 
             let resultat = calculHoreca(saison, Q1, Q2);
-            let categorie = obtenirCategorie(resultat);
+            let categorie = obtenirCategorieHoreca(resultat);
             document.getElementById('result-horeca').innerHTML = `Potentiel soft drinks annuel pour HORECA : ${resultat.toFixed(2)} Litres <br> La catégorie client est : ${categorie}`;
-
         }
     </script>
 
